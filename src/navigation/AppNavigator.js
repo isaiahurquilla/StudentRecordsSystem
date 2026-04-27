@@ -4,6 +4,7 @@ import StudentScreen from '../screens/StudentScreen';
 import AnalyticScreen from '../screens/AnalyticScreen';
 import AlertScreen from '../screens/AlertScreen';
 import StudentFormScreen from '../screens/StudentFormScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,7 @@ export default function AppNavigator() {
       />
       <Tab.Screen name="Alerts" component={AlertScreen} />
       <Tab.Screen name="Analytics" component={AnalyticScreen} />
+      <Tab.Screen name="Tools" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
