@@ -1,4 +1,5 @@
-import { createContext, useContext, useMemo, useReducer } from 'react';
+import { createContext, useContext, useEffect, useMemo, useReducer, useState } from 'react';
+import { loadStudents, saveStudents } from '../utils/storage';
 
 const StudentContext = createContext();
 
@@ -47,8 +48,25 @@ function studentReducer(state, action) {
 
 export function StudentProvider({ children }) {
   const [state, dispatch] = useReducer(studentReducer, initialState);
+  const [loaded, setLoaded] = useState(false);
 
-  const value = useMemo(() => ({ state, dispatch }), [state]);
+  useEffect(() => {
+    async function fetchStudents() {
+      const savedStudents = await loadStudents();
+      dispatch({ type: 'SET_STUDENTS', payload: savedStudents });
+      setLoaded(true);
+    }
+
+    fetchStudents();
+  }, []);
+
+  useEffect(() => {
+    if (loaded) {
+      saveStudents(state.students);
+    }
+  }, [state.students, loaded]);
+
+  const value = useMemo(() => ({ state, dispatch, loaded }), [state, loaded]);
 
   return (
     <StudentContext.Provider value={value}>

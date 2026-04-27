@@ -19,7 +19,9 @@ function StudentStack() {
       <Stack.Screen
         name="StudentForm"
         component={StudentFormScreen}
-        options={{ title: 'Add Student' }}
+        options={({ route }) => ({
+          title: route?.params?.student ? 'Edit Student' : 'Add Student',
+        })}
       />
     </Stack.Navigator>
   );
